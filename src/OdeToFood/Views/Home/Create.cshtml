@@ -1,0 +1,24 @@
+﻿@using OdeToFood.Entities
+@model OdeToFood.ViewModels.RestaurantEditViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h1>Create</h1>
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.LabelFor(x => x.Name)
+        @Html.EditorFor(x => x.Name)
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+        <div>
+            @Html.LabelFor(x => x.Cuisine)
+            @Html.DropDownListFor(x => x.Cuisine, Html.GetEnumSelectList(typeof(CuisineType)))
+            @Html.ValidationMessageFor(x => x.Cuisine)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+}
