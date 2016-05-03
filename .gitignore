@@ -17,6 +17,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+
+.vs/*
+
 # =========================
 # Operating System Files
 # =========================
@@ -45,3 +48,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+OdeToFood.sln.DotSettings.user
+src/OdeToFood/project.lock.json
+*.user
