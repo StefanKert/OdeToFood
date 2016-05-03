@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNet.Builder;
+﻿using System;
+using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OdeToFood.Services;
@@ -17,17 +19,39 @@ namespace OdeToFood
 
         private IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services) {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
             services.AddSingleton(provider => Configuration);
             services.AddSingleton<IGreeter, Greeter>();
         }
 
-        public void Configure(IApplicationBuilder app, IGreeter greeter) {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment environment, IGreeter greeter) {
             app.UseIISPlatformHandler();
 
-            app.Run(async (context) => {
+            if (environment.IsDevelopment())
+                app.UseDeveloperExceptionPage();
+            else
+            {
+                //TODO: Add pretty error page for user
+            }
+
+            app.UseRuntimeInfoPage("/info");
+
+            app.UseFileServer();
+
+            app.UseMvc(ConfigureRoutes);
+
+            app.Run(async context => {
                 await context.Response.WriteAsync(greeter.GetGreeting());
             });
+        }
+
+        private void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            // /Home/Index
+
+            routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
         }
 
         public static void Main(string[] args) => WebApplication.Run<Startup>(args);
