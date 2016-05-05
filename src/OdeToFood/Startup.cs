@@ -7,6 +7,7 @@ using Microsoft.AspNet.Routing;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 using OdeToFood.Entities;
 using OdeToFood.Services;
 
@@ -36,7 +37,7 @@ namespace OdeToFood
             services.AddScoped<IRestaurantData, SqlRestaurantData>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment environment, IGreeter greeter) {
+        public void Configure(IApplicationBuilder app, IHostingEnvironment environment, IApplicationEnvironment applicationEnvironment, IGreeter greeter) {
             app.UseIISPlatformHandler();
 
             if (environment.IsDevelopment())
@@ -50,13 +51,11 @@ namespace OdeToFood
 
             app.UseFileServer();
 
+            app.UseNodeModules(applicationEnvironment);
+
             app.UseIdentity();
 
             app.UseMvc(ConfigureRoutes);
-
-            app.Run(async context => {
-                await context.Response.WriteAsync(greeter.GetGreeting());
-            });
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)

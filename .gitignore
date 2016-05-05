@@ -51,3 +51,4 @@ Temporary Items
 OdeToFood.sln.DotSettings.user
 src/OdeToFood/project.lock.json
 *.user
+/src/OdeToFood/node_modules
