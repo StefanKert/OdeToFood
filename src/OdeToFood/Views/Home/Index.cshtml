@@ -1,5 +1,4 @@
-﻿@using OdeToFood.Entities
-@model OdeToFood.ViewModels.HomePageViewModel
+﻿@model OdeToFood.ViewModels.HomePageViewModel
 
 @{
     ViewBag.Title = "Home";
@@ -7,15 +6,14 @@
 
 <h1>Welcome!</h1>
 
-<table>
-    @foreach (var restaurant in Model.Restaurants)
-    {
-        <tr>
-            <td>@Html.ActionLink(restaurant.Id.ToString(), "Details", new {id = restaurant.Id})</td>
-            <td>@restaurant.Name</td>
-        </tr>
-    }
-</table>
+@foreach (var restaurant in Model.Restaurants)
+{
+    @Html.Partial("_Summary", restaurant)
+}
+
+<div>
+    <a asp-controller="Home" asp-action="Create">Create</a>
+</div>
 
 @section footer {
     <div>@Model.CurrentGreeting</div>
